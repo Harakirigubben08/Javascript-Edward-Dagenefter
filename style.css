@@ -1,0 +1,28 @@
+@font-face {
+    font-family: 'MyWebFont';
+    src: url("fonts/WOODBADG.TTF")  format('truetype'), 
+}
+
+#gameCanvas {
+    background-image: url(kitchen.jpg);
+    background-size: cover;
+}
+#slutskärm{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: black;
+    width:100%;
+    height:100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#slutskärm h1{
+    color: white;
+    font-size: 80px;
+    margin: 0;
+    font-family: "MyWebFont"
+}
