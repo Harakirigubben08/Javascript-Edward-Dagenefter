@@ -6,7 +6,18 @@ const div = document.getElementById("slutskärm")
 const FlyttaImg = new Image();
 FlyttaImg.src = "trött.jpg";
 
-const kåldolmeImg = document.getElementById("dolm");
+let id;
+const kåldolmeImg = new Image();
+kåldolmeImg.src = "dolme.jpg";
+
+function byttillsallad(){
+  const gammal = document.querySelector('script[data-role="game.js"]')
+  if (gammal) gammal.remove();
+  const sallad = document.createElement('script');
+  sallad.src = 'sallad.js';
+  sallad.setAttribute('data-role','game');
+  document.head.appendChild(sallad);
+}
 
 
 
@@ -16,21 +27,18 @@ let spelare = {
   y: 100,
   w: 180,
   h: 160,
-  speed: 25
+  speed: 15
 };
 
-let keys = {};
 
-window.addEventListener("keydown", (e) => { keys[e.key] = true; });
-window.addEventListener("keyup", (e) => { keys[e.key] = false; });
 
-let coins = [];
+let dolmar = [];
 let score = 0;
-const maxCoins = 5;
+const maxdolmar = 5;
 
-function spawnCoins(amount) {
+function spawndolmar(amount) {
   for (let i = 0; i < amount; i++) {
-    coins.push({
+    dolmar.push({
       x: Math.random() * (canvas.width - 20),
       y: Math.random() * (canvas.height - 20),
       w: 55,
@@ -39,7 +47,7 @@ function spawnCoins(amount) {
   }
 }
 
-spawnCoins(maxCoins);
+spawndolmar(maxdolmar);
 
 function rectsCollide(a, b) {
   return (
@@ -59,8 +67,8 @@ function update() {
   spelare.x = Math.max(0, Math.min(canvas.width - spelare.w, spelare.x));
   spelare.y = Math.max(0, Math.min(canvas.height - spelare.h, spelare.y));
 
-  coins = coins.filter((coin) => {
-    if (rectsCollide(spelare, coin)) {
+  dolmar = dolmar.filter((dolm) => {
+    if (rectsCollide(spelare, dolm)) {
       score++;
       if (score<120){
       spelare.w += 2;
@@ -74,11 +82,11 @@ function update() {
   });
 
   if (score>50){
-    FlyttaImg.src = "Edwardglad.jpg";
+    FlyttaImg.src = "Edwardgap.jpg";
   };
     
-  if (coins.length < maxCoins) {
-    spawnCoins(maxCoins - coins.length);
+  if (dolmar.length < maxdolmar) {
+    spawndolmar(maxdolmar - dolmar.length);
   }
 }
 
@@ -86,8 +94,8 @@ function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(FlyttaImg, spelare.x, spelare.y, spelare.w, spelare.h);
 
-  for (let coin of coins) {
-    ctx.drawImage(kåldolmeImg, coin.x, coin.y, coin.w, coin.h);
+  for (let dolm of dolmar) {
+    ctx.drawImage(kåldolmeImg, dolm.x, dolm.y, dolm.w, dolm.h);
   }
 
   ctx.fillStyle = "black";
@@ -99,10 +107,16 @@ function gameLoop() {
   update();
   draw();
   id = requestAnimationFrame(gameLoop);
-  if(score > 10){
+  if(score > 80){
     cancelAnimationFrame(id);
     canvas.style.display = 'none';
     div.style.display = "flex";
+    setTimeout(() =>{
+    byttillsallad()
+    console.log("potatis")
+
+    }, 3*1000 );
+
   }
 }
 
