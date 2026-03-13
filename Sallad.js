@@ -3,7 +3,7 @@ FlyttaImg.src = "EdwardLedsen.jpg"
 
 const SalladImg = new Image();
 SalladImg.src = "sallad.png";
-
+seconds=0;
 let sallader = [];
 const antalSallader = 4;
 spelare.w = 200
@@ -14,9 +14,7 @@ spelare.y= 60
 
 let gameOver = false;
 
-// ====================
-//     Skapa sallader
-// ====================
+//skapar sallad
 function spawnSallader(amount) {
   for (let i = 0; i < amount; i++) {
     const sallad = {
@@ -24,21 +22,17 @@ function spawnSallader(amount) {
       y: Math.random() * (canvas.height - 50),
       w: 50,
       h: 50,
-      vx: (Math.random() - 0.5) * 3,   // -1.5 till +1.5 px/frame
+      vx: (Math.random() - 0.5) * 3,   
       vy: (Math.random() - 0.5) * 3
     };
     sallader.push(sallad);
   }
 }
 
-// ====================
-//     Rita allt
-// ====================
 function drawsallad() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   if (gameOver) {
-    // Svart skärm + text
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -56,7 +50,7 @@ function drawsallad() {
     ctx.drawImage(FlyttaImg, spelare.x, spelare.y, spelare.w, spelare.h);
   }
 
-  // Rita alla sallader
+  // Rita sallader
   for (let sallad of sallader) {
     if (SalladImg.complete) {
       ctx.drawImage(SalladImg, sallad.x, sallad.y, sallad.w, sallad.h);
@@ -64,9 +58,7 @@ function drawsallad() {
   }
 }
 
-// ====================
-//     Uppdatera logik
-// ====================
+
 function updatesallad() {
   if (gameOver) return;
 
@@ -76,11 +68,11 @@ function updatesallad() {
   if (keys["ArrowUp"])    spelare.y -= spelare.speed;
   if (keys["ArrowDown"])  spelare.y += spelare.speed;
 
-  // Håll spelaren inne på canvas
+
   spelare.x = Math.max(0, Math.min(canvas.width - spelare.w, spelare.x));
   spelare.y = Math.max(0, Math.min(canvas.height - spelare.h, spelare.y));
 
-  // Flytta salladerna (de flyger runt)
+  // sallad som flyger
   for (let sallad of sallader) {
     sallad.x += sallad.vx;
     sallad.y += sallad.vy;
@@ -94,21 +86,26 @@ function updatesallad() {
     }
   }
 
-  // Kolla kollision med varje sallad
+  // Kollar om salladen träffar
   for (let i = sallader.length - 1; i >= 0; i--) {
     if (rectsCollide(spelare, sallader[i])) {
       gameOver = true;
-      // Du kan också ta bort salladen om du vill:
-      // sallader.splice(i, 1);
-      break; // vi behöver bara en kollision för game over
+      break; 
     }
   }
 }
 
-function gameLoop() {
+function gameLoop(start) {
+    now = new Date().getSeconds()/100;
+    distance = start - now;
+    if (distance > 1){
+      seconds ++;
+    }
+  console.log(seconds);
   updatesallad();
   drawsallad();
   requestAnimationFrame(gameLoop);
+  
 }
 
 let imagesLoaded = 0;
@@ -126,6 +123,12 @@ SalladImg.onload  = imageLoaded;
 setTimeout(() => {
   if (imagesLoaded === 2) {
     spawnSallader(antalSallader);
-    gameLoop();
+    start = new Date().getSeconds();
+    gameLoop(start);
   }
 }, 1500);
+
+setTimeout(() => {
+
+  
+}, 10000);

@@ -118,7 +118,7 @@ function gameLoop() {
   update();
   draw();
   id = requestAnimationFrame(gameLoop);
-  if(score > 20){
+  if(score > 10){
     cancelAnimationFrame(id);
     canvas.style.display = 'none';
     div.style.display = "flex";
