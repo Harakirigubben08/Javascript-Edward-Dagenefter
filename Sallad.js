@@ -1,25 +1,16 @@
-// Förutsättning: du har redan canvas, ctx och keys definierade någonstans
-// Exempel:
-// const canvas = document.getElementById("game");
-// const ctx = canvas.getContext("2d");
-// let keys = {};
-
-const FlyttaImg = new Image();
-FlyttaImg.src = "edwardLedsen.jpg";   // byt namn om filen heter något annat
+console.log("hejsan")
+FlyttaImg.src = "EdwardLedsen.jpg"
 
 const SalladImg = new Image();
 SalladImg.src = "sallad.png";
 
 let sallader = [];
 const antalSallader = 4;
-
-let spelare = {
-  x: 200,
-  y: 200,
-  w: 60,
-  h: 80,
-  speed: 5
-};
+spelare.w = 200
+spelare.h = 200
+spelare.speed = 10
+spelare.x = 60
+spelare.y= 60
 
 let gameOver = false;
 
@@ -41,18 +32,6 @@ function spawnSallader(amount) {
 }
 
 // ====================
-//     Kollisionsdetektering
-// ====================
-function rectsCollide(a, b) {
-  return (
-    a.x < b.x + b.w &&
-    a.x + a.w > b.x &&
-    a.y < b.y + b.h &&
-    a.y + a.h > b.y
-  );
-}
-
-// ====================
 //     Rita allt
 // ====================
 function drawsallad() {
@@ -64,7 +43,7 @@ function drawsallad() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = "white";
-    ctx.font = "120px 'Woodcraft', cursive";  // Woodcraft måste vara laddad
+    ctx.font = "120px 'woodcraft', cursive";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText("Gunilla vann", canvas.width/2, canvas.height/2);
@@ -126,16 +105,12 @@ function updatesallad() {
   }
 }
 
-// ====================
-//     Spel-loop
-// ====================
 function gameLoop() {
   updatesallad();
   drawsallad();
   requestAnimationFrame(gameLoop);
 }
 
-// Starta spelet när båda bilderna är laddade
 let imagesLoaded = 0;
 function imageLoaded() {
   imagesLoaded++;
@@ -148,8 +123,6 @@ function imageLoaded() {
 FlyttaImg.onload = imageLoaded;
 SalladImg.onload  = imageLoaded;
 
-// Om bilderna redan är cachade → onload triggas inte alltid
-// Säkerhetskontroll:
 setTimeout(() => {
   if (imagesLoaded === 2) {
     spawnSallader(antalSallader);

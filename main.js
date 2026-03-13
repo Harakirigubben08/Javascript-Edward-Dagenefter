@@ -12,6 +12,9 @@ kåldolmeImg.src = "dolme.jpg";
 
 function byttillsallad(){
   const gammal = document.querySelector('script[data-role="game.js"]')
+  canvas.style.display = 'flex'
+  div.style.display = 'none'
+  console.log("Maaa")
   if (gammal) gammal.remove();
   const sallad = document.createElement('script');
   sallad.src = 'sallad.js';
@@ -30,11 +33,19 @@ let spelare = {
   speed: 15
 };
 
-
+let keys = []
 
 let dolmar = [];
 let score = 0;
 const maxdolmar = 5;
+
+document.addEventListener('keydown', (e) => {
+  keys[e.key] = true;
+});
+
+document.addEventListener('keyup', (e) => {
+  keys[e.key] = false;
+});
 
 function spawndolmar(amount) {
   for (let i = 0; i < amount; i++) {
@@ -107,7 +118,7 @@ function gameLoop() {
   update();
   draw();
   id = requestAnimationFrame(gameLoop);
-  if(score > 80){
+  if(score > 20){
     cancelAnimationFrame(id);
     canvas.style.display = 'none';
     div.style.display = "flex";
