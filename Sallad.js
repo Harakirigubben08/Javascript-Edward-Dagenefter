@@ -4,7 +4,7 @@ const SalladImg = new Image();
 SalladImg.src = "sallad.png";
 
 let sallader = [];
-const antalSallader = 4;
+const antalSallader = 8;
 spelare.w = 200;
 spelare.h = 200;
 spelare.speed = 10;
@@ -29,8 +29,8 @@ function spawnSallader(amount) {
         y: Math.random() * (canvas.height - 50),
         w: 50,
         h: 50,
-        vx: (Math.random() - 0.5) * 4,
-        vy: (Math.random() - 0.5) * 4
+        vx: (Math.random() - 0.5) * 8,
+        vy: (Math.random() - 0.5) * 8
       };
 
       const spelareZon = {
